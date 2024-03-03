@@ -95,7 +95,8 @@ def _ttt_help():
           '\nWhen it is your turn, indicate which cell you '
           'would like to select using two integers (row col).'
           ' for example entering 1 0 returns the first cell of the '
-          'second row. Alternatively you may enter the letter code of your'             ' chosen cell as per the below schema:') 
+          'second row. Alternatively you may enter the letter code of your'
+          ' chosen cell as per the below schema:') 
     print('-------------\n'
           '{0} | {1} | {2}\n'
           '-------------\n'

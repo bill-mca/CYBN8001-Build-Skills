@@ -1,5 +1,4 @@
 import turtle
-from random import random
 t = turtle.Turtle()
 t.speed(10) # 1:slowest, 3:slow, 5:normal, 10:fast, 0:fastest
 
@@ -13,7 +12,7 @@ def letter_a():
   t.forward(50)
   t.left(300)
   t.forward(50)
-  
+
 def axes():
   t.home()
   t.goto(200,0)
@@ -25,26 +24,32 @@ def axes():
   t.goto(0, -200)
 
 def side(t, levels, length):
+  """
+  This function draws one side of a koch snowflake.
+
+  The function uses functional recursion to implement the specified depth of
+  fractal recursion.
+  """
   md = length/3
   if levels == 0:
     t.forward(length)
   else:
-  	side(t, levels-1, length/3)
-	  t.left(60)
-	  side(t, levels-1, md)
-	  t.right(120)
-	  side(t, levels-1, md)
-	  t.left(60)
-	  side(t, levels-1, md)
+    side(t, levels-1, length/3)
+    t.left(60)
+    side(t, levels-1, md)
+    t.right(120)
+    side(t, levels-1, md)
+    t.left(60)
+    side(t, levels-1, md)
 
-def koch(t, levels, length):    
-	side(t, levels, length)
-	t.right(120)
-	side(t, levels, length)
-	t.right(120)
-	side(t, levels, length)
-	t.right(120)
-  
+def koch(t, levels, length):
+  side(t, levels, length)
+  t.right(120)
+  side(t, levels, length)
+  t.right(120)
+  side(t, levels, length)
+  t.right(120)
+
 
 axes()
 t.up()
