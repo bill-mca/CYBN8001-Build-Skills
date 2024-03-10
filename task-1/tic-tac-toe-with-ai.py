@@ -31,17 +31,11 @@ _winning_combos = [
 # board[1][0]
 _cell_names = {
     # Top row:
-    'TL' : (0, 0),
-    'TM' : (0, 1),
-    'TR' : (0, 2),
+    'TL' : (0, 0), 'TM' : (0, 1), 'TR' : (0, 2),
     # Middle row:
-    'ML' : (1, 0),
-    'MM' : (1, 1),
-    'MR' : (1, 2),
+    'ML' : (1, 0), 'MM' : (1, 1), 'MR' : (1, 2),
     # Bottom Row
-    'BL' : (2, 0),
-    'BM' : (2, 1),
-    'BR' : (2, 2)
+    'BL' : (2, 0), 'BM' : (2, 1), 'BR' : (2, 2)
     }
 
 # For an early attempt at the solution I tried defining a class to improve the
@@ -114,6 +108,35 @@ def _ttt_help():
           '-------------\n'
           '{6} | {7} | {8}\n'
           '-------------\n'.format(*_cell_names_keys))
+          
+def _score_cell(player, board, index):
+    assert player == 'X' or player == 'O'
+    # Make a string containing just the name of the opposing player:
+    opponent = 'XO'.replace(player, '')
+    if type(index) == 'string':
+        index = _cell_names{index}
+    # Find which combos the given cell is part of
+    included_combos = [index in combo for combo in _winning_combos]
+    # Find the indexes of the included combos
+    combo_indexes = [i for i, x in enumerate(included_combos) if x]
+    cell_score = 0
+    for i in combo_indexes:
+        combo = _winning_combos[i]
+        # If the opponent does not occupy any of the cells in this combo
+        if not any([_get_cell(board, combo[x]) == opponent for x in range(3)]):
+            cell_score += 1
+    return cell_score
+
+def _score_board(player, board):
+    return [[_score_cell(player, board, (x, y)) for x in range(3)] 
+                for y in range(3)]
+                
+def _win_if_posible(player, board):
+    pass
+    
+def _defend_if_necessary(player, board):
+    pass
+
 
 def tic_tac_toe():
     """
@@ -142,6 +165,7 @@ def tic_tac_toe():
     # The game board is a nested list of 
     board = [[" " for _ in range(3)] for _ in range(3)]
     players = ["X", "O"]
+    ai_players = ["O"]
     # The count variable tracks how many turns have been 
     # Played
     count = 0
@@ -161,7 +185,11 @@ def tic_tac_toe():
         # The active player depends on which turn. 'X' always
         # goes first.
         player = players[count % 2]
-        
+        if player in ai_players:
+            move = None
+            move = _win_if_posible(player, board)
+            _defend_if_necessary(player, board)
+            
         # Show the current state of the game board and prompt the 
         # current player to choose their next move.
         # TODO: Don't show the whole board quite so often.
