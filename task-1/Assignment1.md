@@ -1,15 +1,22 @@
 # Assignment 1
 
-[Read me on GitHub instead!!](https://github.com)
+[Read me on GitHub for neater formatting](https://github.com/bill-mca/CYBN8001-Build-Skills/blob/main/task-1/Assignment1.md)
 
-## Artwork
+## Task 1: Create an Artwork
 
 I chose to draw the Koch snowflake fractal as pictured below.
 
-[KochSnowflake.png](
+[KochSnowflake.png](https://github.com/bill-mca/CYBN8001-Build-Skills/blob/main/task-1/koch_snowflake.png?raw=true)
 
+The idea for the snowflake came to me soon after the assignment was set. I really wanted to draw a fractal as it is a good way to demonstrate the power of programming. Because of the elaborate detail and precision of the completed snowflake it would not be possible for most people to draw without machine assistance. 
+My algorithm for the snowflake employed functional recursion. Because of my training as a biologist I am intrigued by functional recursion where functions reproduce themselves with slight modifications. In the case of this snowflake image there were 6 generations of recursive algorithms. The recursive function spawned 4095 child processes. Each of the child processes generated was specialised on drawing a small pat of the whole artwork. 
 
-## AI tic-tac-toe player
+## Task 2: Play a Game
+
+### Code
+The code for my tic-tac-toe game is attatched to this submission and [available on GitHub]( 
+
+### AI tic-tac-toe player
 The following is a strategy to modify my [tic-tac-toe.py](https://github.com/bill-mca/CYBN8001-Build-Skills/blob/main/task-1/tic-tac-toe.py) code.
 Editing the my tic-tac-toe.py code to introduce an AI player I would start by adding a prompt at the start of the game that allows the players to specify whether 'X', 'O', both or neither should be controlled by AI. This would be saved to a list `ai_players`
 
