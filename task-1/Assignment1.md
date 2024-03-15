@@ -12,7 +12,7 @@ The idea for the snowflake came to me soon after the assignment was set. I reall
 My algorithm for the snowflake employed functional recursion. Because of my training as a biologist I am intrigued by functional recursion where functions reproduce themselves with slight modifications. In the case of this snowflake image there were 6 generations of recursive algorithms. The recursive function spawned 4095 child processes. Each of the child processes generated was specialised to draw a small pat of the whole artwork. 
 
 ### Code
-The code for my tic-tac-toe game is attatched to this submission and [available on GitHub](https://github.com/bill-mca/CYBN8001-Build-Skills/blob/main/task-1/tic-tac-toe.py).
+The code to generate my artwork is attatched to this submission and [available on GitHub](https://github.com/bill-mca/CYBN8001-Build-Skills/blob/main/task-1/koch-snowflake-axi.py).
 
 ### Process
 
@@ -40,6 +40,9 @@ The code for my tic-tac-toe game is attatched to this submission and [available 
 4. Especially when working with cyber-physical systems, it is really important to document **how** you managed to produce an error. I jumped to conclusions about the cause of the error that then prevented me from actually beeing able to reproduce it. Keeping better track of the errors that I get is a habt I'll need to develop. I might need to keep a lab diary. 
 
 ## Task 2: Play a Game
+
+### Code
+The code for my tic-tac-toe game is attatched to this submission and [available on GitHub](https://github.com/bill-mca/CYBN8001-Build-Skills/blob/main/task-1/tic-tac-toe.py).
 
 ### Coder's Journey
 
@@ -91,9 +94,6 @@ function tic_tac_toe()
     else:
         print "Congratulations Player {player}, you're a winner!"
 ```
-
-### Code
-The code for my tic-tac-toe game is attatched to this submission and [available on GitHub](https://github.com/bill-mca/CYBN8001-Build-Skills/blob/main/task-1/koch-snowflake-axi.py).
 
 ### AI tic-tac-toe player
 The following is a strategy to modify my [tic-tac-toe.py](https://github.com/bill-mca/CYBN8001-Build-Skills/blob/main/task-1/tic-tac-toe.py) code.
