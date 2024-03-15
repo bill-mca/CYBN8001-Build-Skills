@@ -75,8 +75,8 @@ def koch(t, levels, length):
   Note that this function does not raise or lower the turtle object's pen. It
   finishes in the same location and orientation that it started in.
 
-    Parameters
-    ----------
+  Parameters
+  ----------
     t : Turtle object
       An active instance of the turtle class that will be called to draw the
       snowflake.
@@ -89,8 +89,8 @@ def koch(t, levels, length):
       of the snowflake. Expressed in the units set for the turtle object which
       are pixels by default.
 
-    Returns
-    ----------
+  Returns
+  ----------
     This function does not return anything.
 
   """
@@ -99,12 +99,12 @@ def koch(t, levels, length):
   # second side, turns 180 degrees and draws the third side. It turns 120
   # degrees as the last step so that it finishes back in start location with the
   # same orientation.
-	side(t, levels, length)
-	t.right(120)
-	side(t, levels, length)
-	t.right(120)
-	side(t, levels, length)
-	t.right(120)
+  side(t, levels, length)
+  t.right(120)
+  side(t, levels, length)
+  t.right(120)
+  side(t, levels, length)
+  t.right(120)
 
 if __name__ == '__main__':
   # If this script is being called from the command line run the following code:

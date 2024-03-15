@@ -117,7 +117,7 @@ def _score_cell(player, board, index):
         index = _cell_names{index}
     # Find which combos the given cell is part of
     included_combos = [index in combo for combo in _winning_combos]
-    # Find the indexes of the included combos
+    # Find the indexes of the combos that include the given cell
     combo_indexes = [i for i, x in enumerate(included_combos) if x]
     cell_score = 0
     for i in combo_indexes:
@@ -128,6 +128,9 @@ def _score_cell(player, board, index):
     return cell_score
 
 def _score_board(player, board):
+    # Run _score_cell on each cell in the board and return the output as a 3*3
+    # nested list
+    # TODO: Needs to assign a score of -1 to cells that are already full!
     return [[_score_cell(player, board, (x, y)) for x in range(3)] 
                 for y in range(3)]
                 
@@ -188,13 +191,14 @@ def tic_tac_toe():
         if player in ai_players:
             move = None
             move = _win_if_posible(player, board)
-            _defend_if_necessary(player, board)
+            move = _defend_if_necessary(player, board)
             
         # Show the current state of the game board and prompt the 
         # current player to choose their next move.
         # TODO: Don't show the whole board quite so often.
-        _display_board(board)
-        move = input(f"Player {player}, enter your move: ")
+        else:
+            _display_board(board)
+            move = input(f"Player {player}, enter your move: ")
         
         # If the user specified a cell using its name
         # set the cell index accordingly.

@@ -1,0 +1,24 @@
+Function _ai_move(player, board)
+    # First, try to win with this move:
+    for combo in winning_combos:
+        if player occupies two cells in combo AND opponent occupies zero cells in combo:
+            return index of the empty cell
+
+    # second, block the opponent from winning if necessary:
+    for combo in winning_combos:
+        if opponent occupies two cells in combo AND player occupies zero cells in combo:
+            return index of the empty cell
+
+    # Finally, if neither player can win this turn the optimal move is one that
+    # maximises your oportunities to win in following turns:
+    cell_scores = empty 3*3 nested list
+    for row in cell_scores:
+        for cell in row:
+            cell_winning_combos = subset of winning_combos that includes cell
+            for combo in cell_winning_combos:
+                if none of the cells of combo have the opponent's symbol:
+                    increase cell_scores[row, cell] by 1
+    # Often there will be 2 or 3 cells with the same high score.
+    # In that case the ai can just randomly pick one as they are all
+    # equally good moves.
+    return the index of any of the highest values in cell_scores
