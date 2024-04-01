@@ -10,7 +10,7 @@ The assigned circuit is designed to be a thermostat that holds the temperature o
 
 The image below denominates several of the components of the circuit by assigning each a number.  
 
-![Labelled diagram of the automatic room temperature controller](automatic-room-temperature-controller.png | width=350)
+![Labelled diagram of the automatic room temperature controller](automatic-room-temperature-controller.png)
 
 The following is a description of the function of each of the components as per the numbering assigned in the image. 
 1. **Arduino Uno**. This microcontroller translates the voltage on pin `A0` into a temperature reading. The input is processed by C++ code that have been flashed to the microcontroller. It sends text output to the LCD. Depending on the temperature, it can turn the heater (pin 8) or the fan (pin 6) on or off. 
@@ -26,13 +26,22 @@ The following is a description of the function of each of the components as per 
 
 In the sections below I'll describe some possible modifications that would make the thermostat a simpler device.
 
-#### Remove the LCD - Automatic thermostat
-This is the easiest way to dramatically simplify the design. The user has to reflash the microcontroller to change the setting of the thermostat. Seeing as the user can't easiy change the setting of the thermostat, having a temperature readout is a bit pointless. It seems like the whole LCD has been put on just to debug the Arduino code. Debugging should've been done in a simulator. If the designer wants to be able to see whether the mcrocontroller is trying to turn on the heater or the fan, for the purpose of debugging, they could just wire LEDs in parrallell on pins 6 and 8. Without the screen, the thermostat would be able to automatically control the temperature of a device without any human interface. 
+#### Remove the LCD to make an automatic thermostat
+This is the easiest way to dramatically simplify the design. The user has to reflash the microcontroller to change the setting of the thermostat. Seeing as the user can't easiy change the setting of the thermostat, having a temperature readout is a bit pointless. It seems like the whole LCD has been put on just to debug the Arduino code. Debugging should've been done in a simulator. If the designer wants to be able to see whether the mcrocontroller is trying to turn on the heater or the fan, for the purpose of debugging, they could just wire LEDs in parrallell on pins 6 and 8. Without the screen, the thermostat would be able to automatically control the temperature of a device without any human interface. This could be useful for scientific instruments that are left out in the field to perform remote monitoring.
 
-#### Remove the heater and fan - Basic garden weatherstation
-This would make the design an effective but unnecessarily expensive digital thermometer. The code would have to be changed to remove the elements of checking the temperature against the desired range or sending signals to the fan or heaater. Modifying te code and adding a two buttons it would be possible for the microcontroller to store each days maximum and minimum temperature so that a user could always see the temperature just by looking at the   
+#### Remove the heater and fan to make a basic garden weatherstation
+This would make the design an effective but unnecessarily expensive digital thermometer. The code would have to be changed to remove the elements of checking the temperature against the desired range or sending signals to the fan or heaater. Modifying te code and adding a two buttons it would be possible for the microcontroller to store each days maximum and minimum temperature so that a user could always see the temperature just by looking at the screen. Holding down each of the push buttons would allow the user to see the minnimum or maximum temperature for the day. If this were housed in a waterproof box it would be a useful tool to help gardeners decide how much water their garden needs.
 
-#### Remove the arduino - computer fan
-This is the simplest design that makes sense to me and [a version can be found on my TinkerCAD page](https://www.tinkercad.com/things/5Rf5lp1LIYW-thermostat-without-microcontroller). Removing the microcontroller and replacing it with a NPN transistor and a zener diode. The base of the transistor takes the analogue output of the temperature sensor via the blocking gate of a zener diode. The collector of the transistor is wired direct to a 5V power source and the emitter will only produce 5v voltage when the analogue signal from the temperature sensor exceeds the blocking voltage of the zener diode. Setting the blocking voltage at 710uV seems to result in the emitter producing 5V at about 50 degrees celcius and dropping to zero volts at 0 degrees celcius. The image below shows TinkerCAD's simulation of the controller at 48 degrees
+#### Remove the arduino to make a computer fan
+This is the simplest design that makes sense to me and a version can be found on [my TinkerCAD page](https://www.tinkercad.com/things/5Rf5lp1LIYW-thermostat-without-microcontroller). I removed the microcontroller and replaced it with an NPN transistor and a zener diode. The base of the transistor takes the analogue output of the temperature sensor via the blocking gate of the zener diode. The collector of the transistor is wired direct to a 5V power source and the emitter will only produce 5v voltage when the analogue signal from the temperature sensor exceeds the blocking voltage of the zener diode. Setting the blocking voltage at 710uV seems to result in the emitter producing 5V at about 50 degrees celcius and dropping to zero volts at 0 degrees celcius. The image below shows TinkerCAD's simulation of the controller at 48 degrees.
 
-[![Simulation of the mictocontrollerless thermostat at 48 degrees](thermostat-without-microcontroller-48c.png )](https://www.tinkercad.com/things/5Rf5lp1LIYW-thermostat-without-microcontroller)
+[![Simulation of the microcontrollerless thermostat at 48 degrees](thermostat-without-microcontroller-48c.png )](https://www.tinkercad.com/things/5Rf5lp1LIYW-thermostat-without-microcontroller)
+
+This design would be a cheap way of turning on a fan to cool down an electronic device, such as a computer, when the device gets hot.
+
+### 2.3 3D model design of your maker project
+
+I don't want to make a 3D model of my whole maker project as I'm trying to build it ad-hoc from recycled materials. One goal of the project is that the camera system will be adaptable to any stream table design so that users can mount the camera on any stream table that suits their purposes. Below is an image of one of the [mugs that I designed during Hannah Feldman's session](https://www.tinkercad.com/things/1qBBbD4aXG6/edit?sharecode=jskxEsfXwTDAppIfOgsWtElsYZGDu26loPLMJt6rJFk).
+
+[![Image of my 3D design of a mug](3d-mug.png)](https://www.tinkercad.com/things/1qBBbD4aXG6/edit?sharecode=jskxEsfXwTDAppIfOgsWtElsYZGDu26loPLMJt6rJFk)
+
