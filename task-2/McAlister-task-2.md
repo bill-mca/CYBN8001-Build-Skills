@@ -1,7 +1,83 @@
-# Build Skills - Task 2
+﻿# Build Skills - Task 2
 
 ## Section 1 - Model to problem and problem to model exploration
 
+### Model to problem
+**Model:**
+Bayesian Belief Networks
+**Problem:**
+How to maximize water quality in a river by expenditure of a fixed budget.
+
+![An incomplete Bayesian network, showing the interactions between management actions and water quality outcomes (from Pollino and Henderson 2010).](NRM-BBN.png)
+An incomplete Bayesian network, showing the interactions between management actions and water quality outcomes (from Pollino and Henderson 2010)
+
+#### Choice of model
+To come up with this problem, I drew on my professional experience working in natural resource management. I chose Bayesian Belief Networks (BBNs) because I have previously participated in discussions about applying them to environmental decision  making. I read a couple of articles about the application of Bayesian Networks to environmental issues (Pollino and Henderson 2010, Stewart-Koster *et al.* 2010, Barbrook-Johnson and Penn 2022). I concluded that  Bayesian modelling is well suited to modeling socio-ecological systems where feedback is not a significant feature and decided to focus on the water quality model shown in the Pollino and Henderson (2010) paper.
+#### Characteristics of Bayesian Belief Networks
+##### Can relate seemingly disparate information
+BBNs work by identifying the components ('edges') of the system and the causal links between them. A set of meaningful 'states' is then enumerated for each edge. In the water quality example above, dairy, dryland grazing and irrigation are some of the components. the states for dryland grazing are 'access' and 'no access'. 
+
+Where there is a causal link between two edges a conditional probability table is drawn up relating the probability of each state in edge X for each state in edge Y. In the water quality example, there is a causal relationship between fencing and the access of cattle to the stream. The conditional probability table would show that, if improvements are made to fencing, the probability of cattle having access to the stream would decrease. 
+
+Unlike the link between Dairy effluent treatment systems and prevalence of waterborne pathogens, this association was probably not based on an observed scientific relationship but an expert's best guess of the impact of improved fencing. This is a great strength of applying BBNs to environmental problems where knowledge from many fields has to be combined with local on-ground insights.
+      
+##### Works well with incomplete data
+As stated in the last section, BBNs relate the states of variables to each other using conditional probability tables.  We saw how data can be drawn from expert opinion when there is inadequate data. Another strength of BBNs is their ability to work with missing data. In the water quality example,  the states have not yet been defined for nutrients - we know it is an important component of water quality but it hasn't yet had conditional probabilities defined to link  it with its causes (irrigation and dairy). This BBN could still be run without any further input of meaningful information. The states for nutrients could be defined as 'good' and 'bad' with a 50:50 conditional probability for each of the two states defined for dairy and irrigation. The resulting predictions would not have much scientific rigour behind them but they represent our current 'best guess'. This best guess would inevitably provoke dissent from other stakeholders and the resulting discussion would likely yield some expert input into the correct states and probabilities. The model can be drafted with poor data and iterated with further use.
+
+##### Can be made in a participatory manner
+A BBN can be generated through consultative group workshops. The whole structure of the system can elicited from stakeholders. Barbrook-Johnson and Penn (2022) point out that there are two broad approaches: either to teach people what a BBN is and then try to get them to make one while keeping all the limitations of the modelling in mind; or to get people to describe the way the system works in a less structured way. The former approach is very transparent as the resulting model's assumptions and limitations are understood by all stakeholders. 
+
+This feature is perhaps the greatest appeal of using BBNs for modelling environmental systems. Usually, environemntal problems affect many stakeholder groups and they are often politically contested. Barbrook-Johnson and Penn (2022) stressed that the process of making the model is often more valuable than the predictive insights it yields because the new shared understanding of system structure helps to reduce misunderstandings and conflict.
+ 
+##### Structure can be learned from data without human input
+In cases where adequate data is available, the structure of the BBN can be learnt from data using neural networks. This is a completely different application of the concept of BBN to the participatory approach outlined above. It is not very applicable to environmental problems as quality data on the social interface of environmental issues usually does not exist. I will mention this feature of BBNs in reference to other problems below.
+
+##### BBNs don't represent feedback well
+Representing feedback in BBNs  is difficult. In the case of a one-shot expenditure of a budget, there is limited feedback between the actions of human managers and the environment as the decision about how to invest and how that decision is made, can be revised at the conclusion of the project timeframe.
+
+System dynamics is a better approach for speculative modelling of systems. Systems dynamics takes a direct approach to addressing feedback and so can better represent the behaviour of systems over the full range of conditions. It is however, not 
+
+#### Other problems that suit this technique 
+ 1. **Diagnosis of patients** - Often, especially in emergency situations, doctors have to make diagnoses based on limited information. Their professional experience, however, has given them a lot of annecdotal data about the likelihood of different diseases given the outcome of different tests. For example, a patient presenting with a cough is very much more likely to have the flu than lung cancer or tuberculosis, though the latter two are possible. If the patient has had the cough for more than a month then the doctor may decide to x-ray the patient's chest or perform a blood test to constrain the probability enough to make a diagnosis. A BBN can be constructed to simulate this type of reasoning and so help with diagnosis. In hospital settings there may even be adequate data available to train the model from data as discussed above. 
+ 3.  **Rapid assessment of ecological health** - Much the same as with diagnosing patients. For undertaking ecological fieldwork, BBNs could be very useful to input limited or anecdotal observations of ecosystem health and get a prediction of the outcome of a rigorous ecosystem health assessment. This could allow citizen scientists to get an estimate of ecosystem health from the observations that they can make and help professional ecologists to target their survey effort on questions that can't be resolved by lay people.  
+ 4. **Predicting the outcome of horse races** - This is a problem to which BBNs are well suited. Lots of different factors go in to the performance of a horse in a specific race for example, parentage, trainer, jockey, recent form, previous performance in this event, track conditions etc. We can't define the mechanism by which the factors influence performance but it is clear that there is a correlation. This is a case where BBNs the structure of a BBN could realistically be learned from data as horse performance, and a lot of data on the underpinning conditions, is available.
+ 5. **Forecasting commodity prices**
+
+#### Other interesting findings
+Bayesian Belief Networks have their origin in the Symbolic AI project. The original paper describing BBNs by Judea Pearl (1985) was presented to a conference of the cognitive science society. In the paper, Pearl discusses a model of how humans make decisions in the face of uncertainty and speculates on how to get a computer to do the same thing. 
+
+### Problem to Model
+**Problem:**
+Will a river form on my stream table?
+**Model:**
+Newtonian physics. More specifically, Manning's hydraulic model of open channel flow and the Rouse equation.
+
+#### Overview
+For my maker project, I am building a cybernetic stream table. For the stream table to be interesting and informative, it needs to accurately simulate the behavior of a river in dynamic equilibrium. This means that changes in the rate of water flow should result in changes to the shape of the river via the transport of particles of sediment. There's a fine balance to be struck between a river that is immutable and boring or a chaotic mess that doesn't resemble a river at all. The slope of the table, the rate of water flow, and the density, size and shape of sediment particles are all elements of the design that will ultimately determine the type of river behavior that is simulated.
+
+ Having researched a few methods of modelling my stream table, I have decided to try to model different combinations of parameters using an extended set of Manning's equations of open channel flow. The key variable I'll be looking at is the Rouse number which indicates whether particles, of a given shape, size and density, can be entrained by a river. 
+ 
+#### Model Choice criteria
+1. **Effective** - The model needs to be able to predict sediment transport, using parameters I can alter with my design, with some accuracy. It doesn't have to be perfect as I am willing to spend a little bit of time experimenting with the physical model however, it needs to set me on the right track. Being able to identify unviable combinations of medium, flow rate, slope and particle size will save a lot of trial and error in the prototyping phase. 
+2. **Context appropriate** - I am doing this for my maker project, so I have a $200 budget and about 60 days. The time and resources invested in the model has to be commensurate with what I have available. I can't spend most of my remaining time working on the model and then not have time to build.  The manning's model has the advantage of familiarity for me: as I've worked with it before, the effort required to learn the modelling approach is greatly reduced.
+3. **Reproducible** - I value decentralization of knowledge. I am designing the cybernetic stream table in such a way that it should be an easy DIY project for other environmental educators to copy. The model to predict sediment transport is an important part of that as it informs many of the early design decisions in the production of a cybernetic stream table.  As such one of my criteria for the applicability of the cybernetic stream table is that my model could be rerun by a lay-person with different variables.
+4. **Legible** - For reasons articulated with respect to reproducibility, the model outputs, and the underpinning assumptions should be easily understood a lay person.  
+
+#### Assessment process
+ The academic literature offers many alternatives for predicting the behavior of rivers. Many of these would likely have met my effectiveness criteria above but I didn't find anything else that met the context appropriate criteria. Some models involved 3d fluid dynamics simulations or neural networks, which are very computationally demanding, and definitely would have exhausted my $200 budget. I suspect that nothing currently being published in the sediment transport and fluid dynamics literature would meet my context appropriate or legible criteria.
+
+On the other end of the spectrum, Netlogo includes a model of the formation of meander bends (see image below). The model is based on the agent modelling paradigm and is based around the interaction of 'turf' and 'flow' agents. I found this model to be really fun to play with and the simplicity of its methodology was really appealing. It meets all of my above criteria except for efficacy. Seeing as the model does not actually represent sediment particles, it can't inform me about how to combine the parameters that I can set in my design. 
+
+![A screenshot of Netlogo's river meandering model](Netlogo-river-meanders.png)
+A screenshot of Netlogo's river meandering model
+
+ Wikipedia's articles on sediment transport ultimately pointed me to the Rouse equation and the use of Manning's equations to get the bed shear velocity. I  was already familiar with Manning's equations so this immediately stood out as an achievable way forward.
+ 
+#### Model performance evaluation criteria
+
+
+#### Interesting findings
+I'm considering using granulated plastic instead of sand for the medium of the stream table as I've seen professional products on the internet set up this way. I believe that the plastic will be slightly less dense than water and so float! This would show up in the equations of my model as a square root of a negative number 🤓 Basically, plastic would be entrained by any water flow approximately as deep as the plastic particle's diameter and he only limitation on transport would be the friction of surrounding particles. This would make the whole sediment transport modelling exercise futile. 
 ## Section 2 - Exploring TinkerCAD
 
 ### 2.1 - Overall functioning of the system
@@ -45,3 +121,25 @@ I don't want to make a 3D model of my whole maker project as I'm trying to build
 
 [![Image of my 3D design of a mug](3d-mug.png)](https://www.tinkercad.com/things/1qBBbD4aXG6/edit?sharecode=jskxEsfXwTDAppIfOgsWtElsYZGDu26loPLMJt6rJFk)
 
+## Acknowledgments
+Thanks to Safiya for granting an extension on this assignment. I wouldn't have had much to submit on the due date. Thanks also to Dave Harty for pointing me to Netlogo model of river meanders - it isn't useful for designing the stream table but I think it will be a useful tool for communicating about my project. 
+
+## References
+::: {.csl-bib-body style="line-height: 2; padding-left: 1em; text-indent:-1em;"}
+::: csl-entry
+Cain, J, 2001, *Planning Improvements in Natural Resources Management*,
+Centre for Ecology and Hydrology, Wallingford.
+:::
+
+::: csl-entry
+Pollino, CA & Henderson, C, 2010, *Bayesian networks: A guide for their
+application in natural resource management and policy*, p. 48.
+:::
+
+::: csl-entry
+Stewart-Koster, B, Bunn, SE, Mackay, SJ, Poff, NL, Naiman, RJ, & Lake,
+PS, 2010, 'The use of Bayesian networks to guide investments in flow and
+catchment restoration for impaired river ecosystems', *Freshwater
+Biology*, vol. 55, no. 1, pp. 243--260.
+:::
+:::
