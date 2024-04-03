@@ -1,19 +1,27 @@
-﻿# Build Skills - Task 2
+---
+title: "Build Skills - Task 2"
+author: Bill McAlister
+date: 02-04-2024
+geometry: margin=2.5cm
+output: pdf_document
+---
 
 ## Section 1 - Model to problem and problem to model exploration
 
-### Model to problem
+### 1.1  - Model to problem
 **Model:**
 Bayesian Belief Networks
 **Problem:**
 How to maximize water quality in a river by expenditure of a fixed budget.
 
 ![An incomplete Bayesian network, showing the interactions between management actions and water quality outcomes (from Pollino and Henderson 2010).](NRM-BBN.png)
-An incomplete Bayesian network, showing the interactions between management actions and water quality outcomes (from Pollino and Henderson 2010)
+
 
 #### Choice of model
 To come up with this problem, I drew on my professional experience working in natural resource management. I chose Bayesian Belief Networks (BBNs) because I have previously participated in discussions about applying them to environmental decision  making. I read a couple of articles about the application of Bayesian Networks to environmental issues (Pollino and Henderson 2010, Stewart-Koster *et al.* 2010, Barbrook-Johnson and Penn 2022). I concluded that  Bayesian modelling is well suited to modeling socio-ecological systems where feedback is not a significant feature and decided to focus on the water quality model shown in the Pollino and Henderson (2010) paper.
+
 #### Characteristics of Bayesian Belief Networks
+
 ##### Can relate seemingly disparate information
 BBNs work by identifying the components ('edges') of the system and the causal links between them. A set of meaningful 'states' is then enumerated for each edge. In the water quality example above, dairy, dryland grazing and irrigation are some of the components. the states for dryland grazing are 'access' and 'no access'. 
 
@@ -46,7 +54,7 @@ System dynamics is a better approach for speculative modelling of systems. Syste
 #### Other interesting findings
 Bayesian Belief Networks have their origin in the Symbolic AI project. The original paper describing BBNs by Judea Pearl (1985) was presented to a conference of the cognitive science society. In the paper, Pearl discusses a model of how humans make decisions in the face of uncertainty and speculates on how to get a computer to do the same thing. 
 
-### Problem to Model
+### 1.2 - Problem to Model
 **Problem:**
 Will a river form on my stream table?
 **Model:**
@@ -68,16 +76,14 @@ For my maker project, I am building a cybernetic stream table. For the stream ta
 
 On the other end of the spectrum, Netlogo includes a model of the formation of meander bends (see image below). The model is based on the agent modelling paradigm and is based around the interaction of 'turf' and 'flow' agents. I found this model to be really fun to play with and the simplicity of its methodology was really appealing. It meets all of my above criteria except for efficacy. Seeing as the model does not actually represent sediment particles, it can't inform me about how to combine the parameters that I can set in my design. 
 
-![A screenshot of Netlogo's river meandering model](Netlogo-river-meanders.png)
+![A screenshot of Netlogo's river meandering model.](Netlogo-river-meanders.png)
+
 A screenshot of Netlogo's river meandering model
 
- Wikipedia's articles on sediment transport ultimately pointed me to the Rouse equation and the use of Manning's equations to get the bed shear velocity. I  was already familiar with Manning's equations so this immediately stood out as an achievable way forward.
- 
-#### Model performance evaluation criteria
-
+Wikipedia's articles on sediment transport ultimately pointed me to the Rouse equation and the use of Manning's equations to get the bed shear velocity. I  was already familiar with Manning's equations so this immediately stood out as an achievable way forward.
 
 #### Interesting findings
-I'm considering using granulated plastic instead of sand for the medium of the stream table as I've seen professional products on the internet set up this way. I believe that the plastic will be slightly less dense than water and so float! This would show up in the equations of my model as a square root of a negative number 🤓 Basically, plastic would be entrained by any water flow approximately as deep as the plastic particle's diameter and he only limitation on transport would be the friction of surrounding particles. This would make the whole sediment transport modelling exercise futile. 
+I'm considering using granulated plastic instead of sand for the medium of the stream table as I've seen professional products on the internet set up this way. I believe that the plastic will be slightly less dense than water and so float! This would show up in the equations of my model as a square root of a negative number! Basically, plastic would be entrained by any water flow approximately as deep as the plastic particle's diameter and he only limitation on transport would be the friction of surrounding particles. This would make the whole sediment transport modelling exercise futile. 
 ## Section 2 - Exploring TinkerCAD
 
 ### 2.1 - Overall functioning of the system
@@ -88,7 +94,8 @@ The image below denominates several of the components of the circuit by assignin
 
 ![Labelled diagram of the automatic room temperature controller](automatic-room-temperature-controller.png)
 
-The following is a description of the function of each of the components as per the numbering assigned in the image. 
+The following is a description of the function of each of the components as per the numbering assigned in the image.
+
 1. **Arduino Uno**. This microcontroller translates the voltage on pin `A0` into a temperature reading. The input is processed by C++ code that have been flashed to the microcontroller. It sends text output to the LCD. Depending on the temperature, it can turn the heater (pin 8) or the fan (pin 6) on or off. 
 2. **Temperature sensor**. The voltage from the middle sensor of this component is determined by the ambient temperature. when it is cold the middle pin has a low voltage, when it is very hot the voltage approaches the input voltage from the left-most pin.
 3. **DC Motor**. The motor supposedly runs a fan that can cool the system down. Its speed is determined by the voltage supplied. 
@@ -111,18 +118,40 @@ This would make the design an effective but unnecessarily expensive digital ther
 #### Remove the arduino to make a computer fan
 This is the simplest design that makes sense to me and a version can be found on [my TinkerCAD page](https://www.tinkercad.com/things/5Rf5lp1LIYW-thermostat-without-microcontroller). I removed the microcontroller and replaced it with an NPN transistor and a zener diode. The base of the transistor takes the analogue output of the temperature sensor via the blocking gate of the zener diode. The collector of the transistor is wired direct to a 5V power source and the emitter will only produce 5v voltage when the analogue signal from the temperature sensor exceeds the blocking voltage of the zener diode. Setting the blocking voltage at 710uV seems to result in the emitter producing 5V at about 50 degrees celcius and dropping to zero volts at 0 degrees celcius. The image below shows TinkerCAD's simulation of the controller at 48 degrees.
 
-[![Simulation of the microcontrollerless thermostat at 48 degrees](thermostat-without-microcontroller-48c.png )](https://www.tinkercad.com/things/5Rf5lp1LIYW-thermostat-without-microcontroller)
+![Simulation of the microcontrollerless thermostat at 48 degrees](thermostat-without-microcontroller-48c.png )
 
 This design would be a cheap way of turning on a fan to cool down an electronic device, such as a computer, when the device gets hot.
 
 ### 2.3 3D model design of your maker project
 
-I don't want to make a 3D model of my whole maker project as I'm trying to build it ad-hoc from recycled materials. One goal of the project is that the camera system will be adaptable to any stream table design so that users can mount the camera on any stream table that suits their purposes. Below is an image of one of the [mugs that I designed during Hannah Feldman's session](https://www.tinkercad.com/things/1qBBbD4aXG6/edit?sharecode=jskxEsfXwTDAppIfOgsWtElsYZGDu26loPLMJt6rJFk).
+I don't want to make a 3D model of my whole maker project as I'm trying to build it ad-hoc from recycled materials. One goal of the project is that the camera system will be adaptable to any stream table design so that users can mount the camera on any stream table that suits their purposes. 
 
-[![Image of my 3D design of a mug](3d-mug.png)](https://www.tinkercad.com/things/1qBBbD4aXG6/edit?sharecode=jskxEsfXwTDAppIfOgsWtElsYZGDu26loPLMJt6rJFk)
+#### Design
+Below is an image of one of the [mugs that I designed during Hannah Feldman's session](https://www.tinkercad.com/things/2OuiY33WMQn-chini-mug?sharecode=q7KdC7wDqpMq9B6tlKIiLiTwrksyz-cfvG103eeSo34).
+
+[![Image of my 3D design of a mug](3d-mug.png)](https://www.tinkercad.com/things/2OuiY33WMQn-chini-mug?sharecode=q7KdC7wDqpMq9B6tlKIiLiTwrksyz-cfvG103eeSo34)
+
+The mug's model is available from my TinkerCAD page:
+
+[https://www.tinkercad.com/things/2OuiY33WMQn-chini-mug?sharecode=q7KdC7wDqpMq9B6tlKIiLiTwrksyz-cfvG103eeSo34](https://www.tinkercad.com/things/2OuiY33WMQn-chini-mug?sharecode=q7KdC7wDqpMq9B6tlKIiLiTwrksyz-cfvG103eeSo34)
+
+#### Process:
+I had a mug in fron of me while working on the model, however the shape of the mug that I had was too complicated to easily draw with TinkerCAD. The handle of the mug was composed of four different three-dimensional compound curves. I had to simplify the design a fairbit to make it achievable. I decided that my mug would consist of a hollow, tapered cylinder and a D-shaped handle. As a bit of a design feature I decided to add embossed decorative lettering. The below image shows all the parts of my mug design.
+
+![An exploded view of my mug design.](exploded-mug.png)
+
+Here's how I put it together:
+
+1. I found a D-shaped ring offered by the TinkerCAD community so this sorted out the handle.
+2. For the tapered cylinder, I made a cone of height 100 and then covered most of the top of it with a negative-space block. Flipping this over made me a tapered cylinder.
+3. To hollow out the cylandir, I duplicated the tapered cylinder object that I had. I scaled the new object down slightly, used the align tool to make it concentric with the other cylinder, switched it to negative-space and lifted it slightly off the base plate.
+4. Grouping the negative and positive cylandirs gave me a cup shape.
+5. I slightly rotated the D ring so that sat as flush as possible with the edge of the mug.
+6. I added cylindrical text using a tool from the TinkerCAD library. Chini is my partner's name.
+7. Lastly, the D-ring object came with a small chip of material floating beside it. this ended up inside the mug and could've caused major issues if someone were to 3D print the design. I added a small cylinder of negative space to erase this artefact.   
 
 ## Acknowledgments
-Thanks to Safiya for granting an extension on this assignment. I wouldn't have had much to submit on the due date. Thanks also to Dave Harty for pointing me to Netlogo model of river meanders - it isn't useful for designing the stream table but I think it will be a useful tool for communicating about my project. 
+Thanks to Safiya for granting an extension on this assignment. I wouldn't have had much to submit on the due date. Thanks also to Dave Harty for pointing me to the Netlogo model of river meanders - it isn't useful for designing the stream table but I think it will be a useful tool for communicating about my project. 
 
 ## References
 ::: {.csl-bib-body style="line-height: 2; padding-left: 1em; text-indent:-1em;"}
