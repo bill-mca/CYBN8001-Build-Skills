@@ -9,3 +9,4 @@ mkdir ./output
 mkdir ./output/img
 mkdir ./output/webmap
 
+unzip -d ./spatial ./spatial.zip
