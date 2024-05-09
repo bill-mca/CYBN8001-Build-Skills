@@ -4,3 +4,8 @@ python3 -m venv ./venv
 ./venv/bin/pip3 install galah-python
 ./venv/bin/pip3 install plotly
 ./venv/bin/pip3 install dash
+
+mkdir ./output
+mkdir ./output/img
+mkdir ./output/webmap
+
