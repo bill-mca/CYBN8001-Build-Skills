@@ -1,5 +1,7 @@
 import galah
-import geopandas
+import geopandas as gpd
+import shapely
+
 
 # Figure out how to get common names
 print(galah.atlas_counts(filters=["year>=1980", "taxa=Banksia", "stateProvince=Australian Capital Territory"], group_by='year', expand=False))
