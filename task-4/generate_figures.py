@@ -19,7 +19,7 @@ def reslog(x):
 grid = gpd.read_file('./spatial/act_grid_road_count_latlon.geojson')
 act_border = gpd.read_file('./spatial/act_border_latlon.geojson')
 bird_grid = gpd.read_file('./spatial/2023_Bird_sighting_grid.geojson')
-bird_grid['log_occurrences'] = [log(x) for x in bird_grid.occurences]
+bird_grid['log_occurrences'] = [reslog(x) for x in bird_grid.occurences]
 
 grid_leaflet = grid.explore()
 grid_leaflet.save("./output/grid.html")
@@ -112,12 +112,11 @@ plotly.offline.plot(bird_histogram, filename='output/webmap/histogram.html')
 
 ## Chloropleth
 
-# Create a leaflet map of the species count overlaying the road network.
+# Create a leaflet map of the sighting density overlaying the road network.
 
-#
 
 m = folium.Map(location=(-35.5, 149), zoom_start=10, tiles="cartodb positron")
-#m = folium.Map(location=(30, 10), zoom_start=3, tiles="Open Street Map")
+# m = folium.Map(location=(30, 10), zoom_start=3, tiles="Open Street Map")
 
 #folium.GeoJson('./spatial/act_border_latlon.geojson').add_to(m)
 #folium.GeoJson('./spatial/act_grid_road_count_latlon.geojson').add_to(m)
