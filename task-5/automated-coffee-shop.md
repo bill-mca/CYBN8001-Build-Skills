@@ -14,49 +14,74 @@ an illustration/graph of the system architecture and workflow
 I have writen some pseudo-python code for the coffee tracking system below. This architecture uses only one machine learning model. The model is used to classify cups of coffee
 
 ```python
-
 # Pixel coordinates of a box where freshly made coffees are
 # placed before being served to the customer
 serving_bbox = (12, 17, 29, 34)
 # pixel coordinates of of a box that encloses the coffee machine
-# and so anyone standing in front of it
+# and so anyone standing near it
 machine_bbox = (601, 112, 1204, 456)
 
 def preproccess_image(image):
+    """Takes an image of the whole coffee counter and clips out two
+    areas of interest that are used by other models. Namely, the coffee
+    machine and the serving area."""
+
     return(crop(image, machine_bbox), crop(image, serving_bbox))
 
-def new_coffees(image):
+def identify_coffees(image):
+    """Uses a machine-learning based image classifier to identify and
+    list any cups of coffee and their sizes. The ML core of the model
+    recognizes many seperate classes each corresponding to a type and
+    size. For example there are seperate classes recognized for regular
+    versus large espressos
 
-def identify_coffee(image):
-"""
+    ----------
 
     Inputs:
-        image (matrix)
 
-        A raster image with RGB values for each pixel. The model expects an  
-    -----
+      image (matrix)
+
+      A raster image with RGB values for each pixel. The model expects an
+      image tighly cropped to 1-4 cups of coffee. 
+
+    ----------
     Outputs:
 
-        Coffee (list)
+      coffees (list)
 
-        returns a list of strings indicating the types of coffee shown in the
-        input image. The 
+      returns a list of tuples indicating the types and sizes of coffee shown
+      in the input image. For example:
+        [("espresso", "single"), ("cappuccino", "regular")]
 
 def decode_qr_codes(image):
+    """Returns a string corresponding to the data value of the largest QR
+    code in the input image. If the image contains no QR codes it returns
+    the string 'unknown' instead""" 
 
-# Returns a list of any valid QR codes in the image
+# Directly write our outputs into a CSV file
+file = open("{}_coffee_log.csv".format(time.timestamp())
 
-output = []
+# The main loop of the script:
 while True:
     active_frame = camera.capture()
     subframes = preproccess_image(active_frame)
-    
+
+    tn = time.timestamp()
+
+    # For each of the coffees identified in the image of the serving area,
+    # add a line to the output file with a timestamp, the name of the
+    # barrista and the type and size of coffee.
+    for coffee in identify_coffees(subframes[2]):
+        type, size = coffee
+        output.append([tn, barrista, type, size].join(", ") + "\n")
+
+    # Set the barrista value after writing output to the file.
+    # This reflects the assumption that the coffee that is being served
+    # now was made by someone who was at the coffee machine during the
+    # last time step. 
     barrista = decode_qr_code(subframes[1])
-    type, size = identify_coffee(subframes[2])
-    output.append([time.now(), barrista, type, size].join(", ") + "\n")
-file = open("{}_coffee_log.csv".format(time.date())
-file.write(output)
-file.close()
+    # wait 20 seconds before looking for new coffees:
+    time.sleep(20)
 ```
 
 ## Example Output Dataset
