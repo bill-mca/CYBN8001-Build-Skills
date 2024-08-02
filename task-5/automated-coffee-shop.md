@@ -95,13 +95,14 @@ datetime, barrista, type, size
 
 # Limitations and Criticisms
 We really need to take a step back and examine the solution proposed. It is limited in many ways by the tech that it depends on. The idea of using machine learning in this context should be called into question. The coffee shop owner should be encouraged to take a more holistic view of their problem rather than jumping to the conclusion that ML is a good solution. 
-- The code above is severley hampered by its presumptuous understanding of temporal patterns. The barrista responsible for a coffee is assumed to have been visible near the coffee machine precisely 20 seconds before the coffee was served. Likewise, coffee is assumed to spend more than 20 but less than 40 seconds in the serving area. If a cup sits for too long it will be double counted. If it doesn't sit in the serving area for 20 seconds there is a risk of it being missed by the counter. Tracking the coffees is a potential state-of-the-art solution to this but it still wouldn't be flawless and it would be a lot more complicated to deploy.
-- The algorithm will make mistakes assigning the barrista if there are multiple staff near the coffee machine.
-- The temporal limitations mean that customers might need to wait an extra 20 seconds for their coffee.
-- The image classification model might recognise many types of coffee but it will not be able to achieve perfect precision. There is too great of a diversity of types of coffee to recognize by sight alone. Consider the challenge of distinguishing a decaf soy latte from a regular latte. Without adding extra symbols (perhaps stickers or texta marks), I can't imagine the model will be able to get this right.
-- To ensure the efficacy of the classifier, the cafe will need to use distinctive looking cups for its various types of coffee. This might directly detract from the profitability of the cafe and will certainly impact its brand coherency and aesthetics.
-- As written, the algorithm is sensitive to the camera being bumped. Any time the camera is bumped an expert will need to fix the process one way or another.
-- Likewise, if the coffee shop changes its layout, decor or the types of cups that it uses, an expert will need to retrain the model.
+
+ - The code above is severley hampered by its presumptuous understanding of temporal patterns. The barrista responsible for a coffee is assumed to have been visible near the coffee machine precisely 20 seconds before the coffee was served. Likewise, coffee is assumed to spend more than 20 but less than 40 seconds in the serving area. If a cup sits for too long it will be double counted. If it doesn't sit in the serving area for 20 seconds there is a risk of it being missed by the counter. Tracking the coffees is a potential state-of-the-art solution to this but it still wouldn't be flawless and it would be a lot more complicated to deploy.
+ - The algorithm will make mistakes assigning the barrista if there are multiple staff near the coffee machine.
+ - The temporal limitations mean that customers might need to wait an extra 20 seconds for their coffee.
+ - The image classification model might recognise many types of coffee but it will not be able to achieve perfect precision. There is too great of a diversity of types of coffee to recognize by sight alone. Consider the challenge of distinguishing a decaf soy latte from a regular latte. Without adding extra symbols (perhaps stickers or texta marks), I can't imagine the model will be able to get this right.
+ - To ensure the efficacy of the classifier, the cafe will need to use distinctive looking cups for its various types of coffee. This might directly detract from the profitability of the cafe and will certainly impact its brand coherency and aesthetics.
+ - As written, the algorithm is sensitive to the camera being bumped. Any time the camera is bumped an expert will need to fix the process one way or another.
+ - Likewise, if the coffee shop changes its layout, decor or the types of cups that it uses, an expert will need to retrain the model.
 
 # Improvement
 This was an exercise in using machine learning to solve a problem, but the problem was only vaguely defined. The most sensible pathways to improving the solution depend on more specific problem definition.
