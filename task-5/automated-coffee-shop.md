@@ -65,6 +65,8 @@ def identify_coffees(image):
       in the input image. For example:
         [("espresso", "single"), ("cappuccino", "regular")]
 
+"""
+
 def decode_qr_codes(image):
     """Returns a string corresponding to the data value of the largest QR
     code in the input image. If the image contains no QR codes it returns
@@ -82,12 +84,12 @@ while True:
 
     # For each of the coffees identified in the image of the serving area,
     # add a line to the output file with a timestamp, the name of the
-    # barrista and the type and size of coffee.
+    # barista and the type and size of coffee.
     for coffee in identify_coffees(subframes[2]):
         type, size = coffee
         output.append([tn, barrista, type, size].join(", ") + "\n")
 
-    # Set the barrista value after writing output to the file.
+    # Set the barista value after writing output to the file.
     # This reflects the assumption that the coffee that is being served
     # now was made by someone who was at the coffee machine during the
     # last time step. 
