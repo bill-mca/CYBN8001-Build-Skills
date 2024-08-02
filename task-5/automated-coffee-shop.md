@@ -4,15 +4,27 @@ title: Automated Coffee Shop
 
 # Assumptions
 
-- According to the exercise the only equipment available are an HD camera and name tags with barcodes. I won't use the till or a button pad.
-- 
+- According to the exercise, the only equipment available are an HD camera and name tags with barcodes. I won't use the till or a button pad. Nor can we directly sense when buttons are being pushed on the coffee machine.
+- The client is an independent coffee shop. We're not trying to make an enormous scalable system for Starbucks. Starbucks would not deploy machine learning for this purpose, they would build custom coffee machines that sense and report user interaction.
+
+# Overview
+
+ - The solution I propose mostly uses simple computer vision code to process images of the coffee making area. QR coded nametags are algorithmically resolved into data identifying the barrista responsible for making coffees.
+ - The coffees are then identified by an image classification model. I would adive using a pre-trained model such as ResNet as a starting point for fine-tuning a custom classifier that recognizes just the types of coffee made by the coffee shop. This will require me to replace the final classification layer of the pre-trained model with a new layer that matches the number of coffee types we want to classify.
+ - Data to train the model will be obtained by manually labelling images of cups of coffee as served at the cafe. this dataset could be collected by setting up the HD camera in its intended location for several weeks before training the model.
+ - It will be important to ensure that the data contains a good sample of all the different types and sizes of coffee that we intend to be able classify.
+ - It will be important that the training images are a good representation of the range of environmental conditions expected in the shop. If the cafe's lighting is very different in winter compared to summer we might data from both seasons for example.
+ - Accuracy will be a good metric for deciding whether the model is working well. In evaluating the model comparison of accuracy and precision should be made to ensure the model isn't overfitted.
+ - The coffee shop will need to setup the cafe in a way that suits the ML model. This might include selecting distinctive looking coffee cups that help the model to distinguish different types of coffee. The approach assumes that the camera can be setup behind the coffee machine so that the barista's name tag is visible to the camera while they are working and that the "serving area" is also in shot and not obscured by the barista.
+ - Staff will need to be trained to change their behaviour in a way that supports the function of the model. They will need to place every cup of coffee that they make into the "serving area" and leave it there for 20 seconds. see the criticisms section below.
 
 # Architecture
 an illustration/graph of the system architecture and workflow
 
-# Process
-I have writen some pseudo-python code for the coffee tracking system below. This architecture uses only one machine learning model. The model is used to classify cups of coffee
+# Algorithm
+I have presented some pseudo-python code for the coffee tracking system below. This architecture uses only one machine learning model. The model is used to classify cups of coffee. Before running the image classifier, the raw photo from the camera is processed to crop out relevant parts of the image. The model takes one image every 20 seconds and passes it to the classifier.
 
+## Code
 ```python
 # Pixel coordinates of a box where freshly made coffees are
 # placed before being served to the customer
