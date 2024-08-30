@@ -32,7 +32,7 @@ done
 
 This automates the process of testing all 25 possible permutatons. A human still needs to read each version of the output text to see if it is sensible. Further automation would result from getting the computer to check the output for sensibility. There are two approaches. 
 
-### Test for sensible words
+### Test for Dictionary Words
 One would be to take some of the output and check if the words are dictionary words. You can download a version of the [Moby dictionary](https://en.wikipedia.org/wiki/Moby_Project) like this:
 
 ```bash
@@ -46,25 +46,25 @@ Adding a loop to generate and save possible permutaions, the core of the code wo
 cat permutation.txt | tr '[:upper:]' '[:lower:]' | tr -s '[:space:]' '\n' | grep -Fx -f ./words.txt | wc -l
 ```
 
-### Test for character frequency
+### Calculate the Letter Frequency
 Rather than grepping a 4.6Mb file many times, it would be much more efficient to test the [letter frequency](https://en.wikipedia.org/wiki/Letter_frequency) of each permutation. In real English text, E occurs more often than other characters. According to the Wikipedia article:
 
 >Herbert S. Zim, in his classic introductory cryptography text Codes and Secret Writing, gives the English letter frequency sequence as "ETAON RISHD LFCMU GYPWB VKJXZQ"...
 
 There's a bit of statistics involved, so you'd have to write or find some custom software rather than relying on standard command line utilities but checking the letter frequency of each possible shift would allow you to identify the right shift.
 
-### Best method
-Calculating the frequency on the cipher would actually be the most computationally efficient way of breaking an arbitrary caesar cipher. If you calculate the letter frequencies, you will find that there is a similar distribution to real English writing but that, for example, X is the most common letter instead of E. This would indicate a shift of -7. This approach is not nearly as demanding of computational resources as the method that brute forces all possible permutations. 
+### Us Letter frequencies to Decrypt
+Calculating letter frequency of the cipher would actually be the most computationally efficient way of breaking a caesar cipher. If you calculate the letter frequencies, you will find that there is a similar distribution to real English writing but that, for example, X is the most common letter instead of E. This would indicate a shift of -7. This approach is not nearly as demanding of computational resources as the method that brute forces all possible permutations. 
 
-This method relies on some of the redundant information in the message to break the cipher. The frequency of occurence of different letters isn't enough to know the message, but it is enough to know whether it is a message in English. We don't need to process the whole message break the caesar cipher. This little bit of metadata is enough. 
+This method relies on some of the redundant information in the message to break the cipher. The frequency of occurence of different letters isn't enough to know the message, but it is enough to know whether it is a message in English. We don't need to process the whole message to break the caesar cipher. This little bit of metadata is enough. 
 
 # Part 2 - Code Analysis
 
 ## CPS Security Script
-*This section is my analysis of the `cps_security.py` and `cps_secure_harness.py` script*
+*This section is my analysis of the `cps_security.py` and `cps_secure_harness.py` scripts*
 
 ### What does the code do and how is this achieved?
-This script defines four functions:
+The `cps_security.py` script defines four functions:
 1. `caesar_cipher_encrypt`
 2. `caesar_cipher_decrypt`
 3. `vigenere_cipher_encrypt`
@@ -139,16 +139,15 @@ argParser.add_argument("-s", "--shift", type=int, help="fixed shift number for a
 
 Argparser also respects bash convention by automatically generating a help message that is printed when the user specifies `-h` or `--help` as an argument.
 
-This wrapper should default to printing the encrypted/decrypted message to stdout instead of also printing log messages such as it does in the following snipet `print("in: ", args.encrypt_text)` Also, it should default to reading input from the stdin unless an input file, or input message, is specified. It would also be good practice to specify the interpreter in line 1 like so: `#! /usr/bin/python3`. 
+To improve the design of this software, this wrapper should default to printing the encrypted/decrypted message to stdout instead of also printing log messages such as it does in the following snipet `print("in: ", args.encrypt_text)` Also, it should default to reading input from the stdin unless an input file, or input message, is specified. It would also be good practice to specify the interpreter in line 1 like so: `#! /usr/bin/python3`. 
 
 ### How secure are the methods of encryption and decryption and why?
 
 #### Caeser Cipher
-As I wrote in Part 1, the caeser cipher is easy to crack using letter frequencies. Any computer that can run the linux kernel could easily crack a caeser cipher in a very short time. I reckon you could even crack a caesar cipher on a microcontroller like a microbit or a bluefruit. 
+As I wrote in Part 1, the caeser cipher is easy to crack using letter frequencies. Any computer that can run the linux kernel could easily crack a caeser cipher in a very short time. I reckon you could fully automate he cracking of a caesar cipher on a microcontroller like a microbit or a bluefruit if you implemented the best method that I discussed in part 1. 
 
 #### Vigenere Cipher
-A Vigenere cipher with a single letter key is the same as the caesar cipher and so can be easily cracked by the same method. 
-With a multi letter key, the vigenere cipher is a fair bit harder to crack. Here I use the vigenere function to encrypt a message and then manage to recover half the letters with a caesar decryption:
+A Vigenere cipher with a single letter key is the same as the caesar cipher and so can be easily cracked by the same method. With a multi letter key, the vigenere cipher is a fair bit harder to crack. Here I use the vigenere function to encrypt a message and then manage to recover half the letters with a caesar decryption:
 
 ```python!
 >>> vigenere_cipher_encrypt("The quick brown fox jumps over the lazy dog", "go")
@@ -157,28 +156,31 @@ With a multi letter key, the vigenere cipher is a fair bit harder to crack. Here
 >>> caesar_cipher_decrypt('SOD XTPBR AYNDM MNE IBLWR VULQ AGL KHYF CVF', 25)
 'TPE YUQCS BZOEN NOF JCMXS WVMR BHM LIZG DWG'
 ```
-If you knew that it were looking for a 2 letter key, and you had a lot of practice, you might be able to recognize that this is a partial solution. The fact that first word is three letters long and almost matches the most common three letter word in the English language suggests that we're on track. 
+If you knew that you were looking for a 2 letter key, and you had a lot of practice, you might be able to recognize that this is a partial solution. The fact that first word is three letters long and almost matches the most common three letter word in the English language suggests that we're on track. 
 
-Knowing the length of the key is the first crucial piece of information that we need. Once you know the length of the key you can try different permutations. To crack the caesar cipher by brute force we only had to try 25 possible permutations. The vigenere cipher has 26<sup>n</sup> possible permutations where `n` is the length of the key. That means, to brute force a message encrypted with a three letter key, we'd have to test 17,576 possible permutations. If we don't know the key length then the equation is more like 26<sup>1</sup> + 26<sup>2</sup> + 26<sup>3</sup> ... 26<sup>n</sup> Hence, knowing the key length greatly reduces the computational intensity.
+Knowing the length of the key is the first crucial piece of information that we need. Once you know the length of the key you can try different permutations. To crack the caesar cipher by brute force we only had to try 25 possible permutations. The vigenere cipher has 26<sup>n</sup> possible permutations where `n` is the length of the key. That means, to brute force a message encrypted with a three letter key, we'd have to test 17,576 possible permutations. If we don't know the key length then the equation is more like 26<sup>1</sup> + 26<sup>2</sup> + 26<sup>3</sup> ... 26<sup>n</sup> Hence, knowing the key length greatly reduces the computational effort required.
 
 The spaces and punctuation are not ciphered. This hints at one way of cracking the vigenere cipher. In English, there are only two one letter words ('A' and 'I'). If we took all the one letter words in the ciphered text, we could look for a relationship between the spacing of the same encrypted one letter word. These patterns in the spacing of one letter words give away the periodicity of the cipher and, hence, the length of the key.
 
-From what I've read 
+I've read [an article](https://www.cipherchallenge.org/wp-content/uploads/2020/12/Five-ways-to-crack-a-Vigenere-cipher.pdf) that claimed that that the vigenere cipher can be cracked by a similar method to the letter frequencies method I suggested to break the caesar cipher. The approach uses a statistic called the index of coincidence (IoC). As per the article the IoC "measures the likelihood that any two characters of a text are the same". A random cipher has an IoC around 1. English text typically has an IoC of 1.7.
 
 
-I found a [python script on github](https://github.com/savanddarji/Cracking-a-Vigenere-Cipher/blob/master/Kerckhoffs%20method%20for%20Vegener%20cipher_JMD_GIT.py) that is only 124 lines and can break a vigenere cipher by brute force.
+I found a [python script on github](https://github.com/savanddarji/Cracking-a-Vigenere-Cipher/blob/master/Kerckhoffs%20method%20for%20Vegener%20cipher_JMD_GIT.py) that is only 124 lines and can break a vigenere cipher by brute force. The article explains that the IoC can give away the period of the cipher (the length of the key):
+
+>To use the IoC to find the period of the cipher, we cut the cipher text into m slices, where each slice
+contains every m<sup>th</sup> letter. Then we find the IoC for each slice and average them. We do this for various choices of m. The smallest m with an average IoC close to 1.7 is our period
  
 
 ### How would you change this encryption technique to make it more secure? What alternative solution would you use?
 
 #### Long Keys
-The vigenere cipher is actually pretty secure if you use a long key. However, A key that is longer than the encrypted text doesn't add any security. If you have a key over 100 characters, and you've added salt to the message, it'll be very hard to break.
+The vigenere cipher is actually pretty secure if you use a long key. However, A key that is longer than the encrypted text doesn't add any security. If you have a key over 100 characters, and you've added salt to the message, it'll be very hard to break. The disadvantage of this is that you need to communicate, with perfect fidelity, a long key to your recipient!
 
 #### Encrypt Punctuation
 One of my ideas for breaking the vigenere cipher relied on using the spaces between words. If you extended the encryption alphabet to include punctuation and spaces, this vulnerability would be eliminated. Also, the longer alphabet increases the possible permutations and so enhances security. 
 
 #### Add salt
-My best methods of cracking rely on letter frequencies. Before encrypting the message, you could add a random sequence of non english words. If the length of the salt is proportional to the message, it would eliminate the letter frequency vulnerability. A problem with this is that the content of the salt could confuse your intended recipient. You would need mututally agreed conventions for figuring out what is salt and what is data.
+My best methods of cracking rely on letter frequencies. Before encrypting the message, you could add a random sequence of non english words. If the length of the salt is proportional to the message, it would eliminate the index of coincidence and letter frequency vulnerabilities. A problem with this is that the content of the salt could confuse your intended recipient. You would need mutually agreed conventions for figuring out what is salt and what is data.
 
 #### Harness improvements
 The harness script is extremely insecure. It takes the intended message and the encryption key as command line arguments! Unless the user diligently clears it, this will be saved as plain text to the user's `.bash_history` file. Any malicious actor that gains read access to the user's home folder will be able to see all the messages that they have recently encrypted! This script is poorly designed.
