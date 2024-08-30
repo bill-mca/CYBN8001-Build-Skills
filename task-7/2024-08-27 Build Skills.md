@@ -123,7 +123,7 @@ there's about 50% redundancy in this code, the only difference betwwen the encry
 
 #### CPS Secure Harness
 
-This code is a wrapper for the functions in `cps_security.py`. It helps you to run the program from the shell. For example the following bash command would encrypt its own source file using the vigenere cipher with the key `Whales And Dolphins` 
+This code is a wrapper for the functions in `cps_security.py`. It helps you to run the program from the shell. For example the following bash command would encrypt its own source file using the vigenere cipher with the key `Whales and Dolphins` 
 
 ```bash!
 python3 cps_secure_harness.py -e "$(<cps_secure_harness.py)" -k "Whales and Dolphins" > cps_secure_harness.py.ciphered
@@ -188,3 +188,79 @@ As I said above, the harness should be improved to read from the STDIN and write
 #### Better algorithms
 
 One serious limitation of both of these algorithms is that you need to communicate the key to the intended recipient without it being intercepted. This is because both algorithms are symmetrical encryption. You're better off using a key pair method. Instead of this python script you should just install [GNU Privacy Guard](https://gnupg.org/) (GPG) and use its [Pretty Good Privacy](https://www.openpgp.org/) compliant key pair methods. If you need to encrypt from within a python script there is a [python API for GPG](https://pypi.org/project/python-gnupg/).
+
+# Part 3 - Risk Matrix
+
+I read [the report on the ANU data breach](https://imagedepot.anu.edu.au/scapa/Website/SCAPA190209_Public_report_web_2.pdf) I'm going to use the ANU intranet as the CPS that I'll be analyzing.
+
+## Datasets
+Below I list some of the datasets that are stored within, and/or circulate around, the ANU network. I've tried to order the data in terms of value to a malicious actor.
+ - Network traffic metadata
+ - Teaching content
+ - Research data (IP)
+ - Student administrative data
+ - HR data
+ - Email
+ - Financial data
+ - Student credentials
+ - Staff credentials
+
+## Risk assessment
+In the sections below I'll talk about a few different scenarios, the likelihood that they happen, the consequences and the steps that could be taken to mitigate them. For the sake of talking about likelihood, I'll use a 10 year horizon. In assessing the risks, I'm taking the perspective of ANU as an institution.
+
+![Risk Matrix](./src/risk_matrix.png)
+
+### Power outage
+**Risk score: 4** 
+Likely but insignificant
+- I believe that ANU has suffered several power outages in the last 10 years. It is likely that this will happen in the next 10 years. 
+ - An outage would stop data from circulating in the network for its duration. It would also crash the servers that store data which would likely lead to a small amount of data loss. An outage does not make data more accessible to malicious actors. 
+
+### Student's credentials stolen by malicious actor
+**Risk score: 6**
+Possible but minor
+- ANU has about 20,000 students. Most of them are lax about cybersecurity. It is almost certain that one of them will use the same password for their university account and other accounts associated with it that are subsequently [pwned](https://haveibeenpwned.com/). Nevertheless, since the 2018 incident, ANU has made 2FA mandatory for all users. It is possible that a malicious actor could steal an authenticator from a student.
+- However, students don't have any administrative privilidges on the ANU network so their credentials aren't much use to an actor that is trying to harm the ANU. The actor could do harm to the student by changing their enrollments. From the ANU's perspective, the danger of this scenario is of the credentials being used to send phishing emails that originate from within the organization.
+
+### ANU machine compromised with malware by student
+**Risk score: 3**
+Rare but moderate consequences
+
+ - Students don't have any administrative privileges to setup software on ANU computers. They can run portable executables and javascript from computers in the library, or when given an ANU device, but ANU ICT has hardened the network to minimise this threat.
+
+### Senior ICT staff member's credentials stolen by malicious actor
+**Risk score: 10**
+Unlikely but major consequences
+
+ICT staff are trained to be protective of their credentials however, once compromised, a senior ICT member's credentials allow a lot of freedom to a malicious actor to attack the network while avoiding detection. This is how the 2018 attacker originally compromised ANU's security. They sent a spearphishing email that stole credentials from a senior ICT employee. ANU has since migrated to cloud-based email for most use cases so the code behind the spearfishing attack would now need to be ahead of Microsoft's threat filter. Nevertheless, a malicious actor with little-known malware could do the same thing again. Alternatively, human weakness could be exploited to effect this attack. The staff member might succumb to being threatened or blackmailed and thereby disclose their credentials. Careful vetting of responsible staff is the most important defence against this hazard.
+
+### Breach of unfirewalled legacy devices with publicly routable IPs
+**Risk score: 10** 
+Unlikely but major consequences
+
+This scenario is based on the intruder's establishment of attack station two as per the report on the 2018 attack. The 2018 attack proved that this had major consequences and was quite possible. I believe that since the attack, ANU cybersecurity have worked to shutdown legacy devices and enforce the firewall. I've rated this threat **10** as I expect the situation has improved from 2018.
+
+
+### Internal Machine compromised with malware by research staff
+**Risk score: 12** 
+Possible with major consequences
+
+Researchers get annoyed by cybersecurity because it makes it harder to do research. There's a political economy of cybersecurity at ANU with different factions having different interests. 
+
+In my time as a research assistant, it wasn't too hard to convince ICT to give me administrator privileges to an ANU owned device. If I were to carelessly install malware on that computer the device admin credentials could be compromised and fall into the hands of a malicious actor that uses them to take over the computer and attack the network.
+
+### The advent of quantum decryption
+**Risk score: 5**
+Rare but catastrophic
+
+Nobody knows when malicious actors will start using powerful quantum computers to break decryption. ANU probably won't be the first target when it does happen. That said, after quantum decryption, any encrypted data that has previously been compromised will effectively be open. The consequences are like all other cybersecurity threats combined.
+
+### Intervention by sophisticated state actors
+**Risk score: ??**
+A wider security frame for the 2018 ANU cyber attack
+
+How was the perpetrator of the 2018 breach identified as a "sophisticated actor"? Apart from the fact that they were diligent, knowledgable and skilled in evading detection and cleaning up most traces of their attack, I think they were identified by their goals. A hacker with such a level of ability could presumably earn a lot of money by attacking businesses for ransoms or by stealing financial credentials from rich people. This actor did not try to earn financial benefit but was extremely cautious and focused on stealing personal data about students and staff. They weren't doing it to make quick money. The fact that the motivation for the attack is unclear suggests that the perpetrator had a longer term strategic interest in the information that they got from the attack. The ANU has links to the Australian defence force and public service. Many ANU students go on to hold senior public offices. It is possible that the attack was geopolitical in nature. 
+
+Geopolitical cybersecurity poses risks to our institution. It is an established fact that the US government has [many secret mass surveillance programs](https://en.wikipedia.org/wiki/Edward_Snowden). We are certain that these programs exist but their current scope and goals are unknown. Counter-programs by the US's geopolitical rivals are even less well understood. This is a threat to the ANU of an indeterminate scale. We have very little knowledge of the power held by these institutions and how the threat would present itself. Mass surveillance potentially gives these actors the power to compromise senior ICT staff. If they do indeed exist, [Back-door vulnerabilities in proprietary software](https://www.youtube.com/watch?v=7gRsgkdfYJ8) might allow them to compromise almost any computer at the ANU without our staff recognizing it.
+
+The university cannot be expected to defend itself from the armies of foreign countries. I've refrained from classifying this risk as it is systemic and beyond the power of our institution to control. If a national superpower decided to mount a serious cyber attack on Australia, ANU's integrity could be irreparably harmed as collateral damage.
